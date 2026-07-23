@@ -4,7 +4,7 @@
 if SHIELD_REVIUNG41_DONGLE
 
 config ZMK_KEYBOARD_NAME
-    default "Reviung41 Dongle"
+    default "Reviung41Dongle"
 
 config ZMK_SPLIT_ROLE_CENTRAL
     default y
