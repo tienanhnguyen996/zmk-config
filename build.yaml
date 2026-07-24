@@ -23,3 +23,5 @@ include:
     shield: xiao_test_std_dongle
   - board: xiao_ble//zmk
     shield: xiao_test_std
+  - board: xiao_ble//zmk
+    shield: settings_reset
