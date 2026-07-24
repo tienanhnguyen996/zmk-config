@@ -1,4 +1,5 @@
 #include <dt-bindings/zmk/matrix_transform.h>
+#include <dt-bindings/led/led.h>
 
 #include <layouts/gtips/reviung41.dtsi>
 
@@ -6,10 +7,46 @@
     transform = <&default_transform>;
 };
 
+&pinctrl {
+    spi1_default: spi1_default {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 0, 2)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 3)>;
+        };
+    };
+
+    spi1_sleep: spi1_sleep {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 0, 2)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 3)>;
+            low-power-enable;
+        };
+    };
+};
+
+&spi1 {
+    compatible = "nordic,nrf-spim";
+    status = "okay";
+    pinctrl-0 = <&spi1_default>;
+    pinctrl-1 = <&spi1_sleep>;
+    pinctrl-names = "default", "sleep";
+
+    led_strip: ws2812@0 {
+        compatible = "worldsemi,ws2812-spi";
+        reg = <0>;
+        spi-max-frequency = <4000000>;
+        chain-length = <0>; /* dummy underglow has 0 LEDs */
+        spi-one-frame = <0x70>;
+        spi-zero-frame = <0x40>;
+        color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
+    };
+};
+
 / {
     chosen {
         zmk,kscan = &mock_kscan;
         zmk,physical-layout = &gtips_reviung41_layout;
+        zmk,underglow = &led_strip;
     };
 
     default_transform: keymap_transform_0 {
