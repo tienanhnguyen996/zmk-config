@@ -42,5 +42,5 @@ git push origin feature/dynamic-role
 ```
 
 You can download the built UF2 files from the **Actions** tab on your GitHub repository page:
-* Flash `xiao_test_dongle-seeeduino_xiao_ble-zmk.uf2` to the Dongle board.
-* Flash `xiao_test-seeeduino_xiao_ble-zmk.uf2` to the Keyboard board.
+* Flash `xiao_test_dongle-xiao_ble-zmk.uf2` to the Dongle board.
+* Flash `xiao_test-xiao_ble-zmk.uf2` to the Keyboard board.

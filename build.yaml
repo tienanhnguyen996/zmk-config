@@ -19,7 +19,7 @@
 #
 ---
 include:
-  - board: seeed_xiao_ble
+  - board: xiao_ble
     shield: xiao_test_dongle
-  - board: seeed_xiao_ble
+  - board: xiao_ble
     shield: xiao_test
