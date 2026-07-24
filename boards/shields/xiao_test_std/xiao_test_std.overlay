@@ -14,8 +14,8 @@
         wakeup-source;
 
         input-gpios
-            = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> // D0 (Key A)
-            , <&gpio0 3 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> // D1 (Key B)
+            = <&xiao_d 0 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> // D0 (Key A)
+            , <&xiao_d 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> // D1 (Key B)
             ;
     };
 };

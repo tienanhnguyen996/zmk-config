@@ -7,6 +7,23 @@
 / {
     chosen {
         zmk,kscan = &mock_kscan;
+        zmk,physical-layout = &default_layout;
+    };
+
+    default_layout: default_layout {
+        compatible = "zmk,physical-layout";
+        display-name = "Default Layout";
+        kscan = <&mock_kscan>;
+        transform = <&default_transform>;
+    };
+
+    default_transform: keymap_transform_0 {
+        compatible = "zmk,matrix-transform";
+        columns = <2>;
+        rows = <1>;
+        map = <
+            RC(0,0) RC(0,1)
+        >;
     };
 
     mock_kscan: kscan {
