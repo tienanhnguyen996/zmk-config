@@ -20,6 +20,6 @@
 ---
 include:
   - board: xiao_ble//zmk
-    shield: xiao_test_dongle
+    shield: xiao_test_std_dongle
   - board: xiao_ble//zmk
-    shield: xiao_test
+    shield: xiao_test_std

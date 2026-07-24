@@ -1,0 +1,21 @@
+/*
+ * Copyright (c) 2026 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+/ {
+    chosen {
+        zmk,kscan = &kscan0;
+    };
+
+    kscan0: kscan {
+        compatible = "zmk,kscan-gpio-direct";
+        wakeup-source;
+
+        input-gpios
+            = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> // D0 (Key A)
+            , <&gpio0 3 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> // D1 (Key B)
+            ;
+    };
+};
