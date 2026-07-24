@@ -1,53 +1,46 @@
-# ZMK Reviung41 Dynamic 2-Mode Configuration Setup Guide
+# ZMK XIAO BLE 2-Mode Hybrid Keyboard & Dongle Setup Guide
 
-This branch (`feature/dynamic-role`) is configured to use the custom **Dynamic 2-Mode Hybrid Keyboard ZMK fork** (located at [tienanhnguyen996/zmk](https://github.com/tienanhnguyen996/zmk)) instead of the upstream ZMK firmware.
+This branch (`feature/dynamic-role`) is pre-configured to build two firmware targets for the **Seeed Studio XIAO BLE** board:
+1. **`xiao_test_dongle` (Dongle / Master):** Plugged into the PC. Acts as the split Central coordinator.
+2. **`xiao_test` (Keyboard / Slave & Standalone Hybrid):** Acts as a split peripheral to the dongle in Dongle Mode, and switches to a standalone BLE/USB keyboard in Direct Mode.
 
-This configuration enables your Reviung41 unibody keyboard to switch between:
-1. **Dongle Mode (Split Peripheral):** Keypresses are wirelessly sent to a USB Dongle (Master), which is plugged into your computer.
-2. **Direct Mode (Standalone BLE/USB):** Keyboard connects directly to your PC, tablet, or phone via Bluetooth or USB.
+Both configurations are built against your custom ZMK fork ([tienanhnguyen996/zmk](https://github.com/tienanhnguyen996/zmk)) on the `main` branch.
 
 ---
 
-## How to Set Up Your Configuration
+## Hardware Configuration (1 GPIO Pin = 1 Key)
 
-### 1. Enable Hybrid Mode in `reviung41.conf`
-Open `config/reviung41.conf` and add the following lines to enable the hybrid configuration and select a physical key position to act as the mode-toggle key:
+### Keyboard Side (`xiao_test`):
+* The key matrix is configured using a **Direct Keyscan** with a single key connected on pin **D0 (GPIO P0.02)** shorted to **GND**.
+* Shorting D0 to GND acts as the key press.
+* This key is intercepted locally. Pressing it toggles between **Dongle Mode** and **Direct Mode** on the fly.
+* Active configurations are stored in `config/xiao_test.conf`:
+  ```ini
+  CONFIG_ZMK_UNIBODY_HYBRID=y
+  CONFIG_ZMK_UNIBODY_TOGGLE_KEY_POSITION=0
+  ```
 
-```ini
-# Enable Hybrid Dynamic Role configuration
-CONFIG_ZMK_UNIBODY_HYBRID=y
+### Dongle Side (`xiao_test_dongle`):
+* Configured as a split Central with no physical keys (using a mock keyscan device).
+* Activates split communication with `1` peripheral device.
+* Active configurations are stored in `config/xiao_test_dongle.conf`:
+  ```ini
+  CONFIG_ZMK_SPLIT=y
+  CONFIG_ZMK_SPLIT_ROLE_CENTRAL=y
+  CONFIG_ZMK_SPLIT_BLE_CENTRAL_PERIPHERALS=1
+  ```
 
-# Select a key position index on your Reviung41 keymap to toggle the mode
-# Key position 38 is typically Lower-layer / center spacer area on Reviung41
-CONFIG_ZMK_UNIBODY_TOGGLE_KEY_POSITION=38
+---
+
+## Build and Push to GitHub
+
+Once you push this branch to your repository, GitHub Actions will compile both targets:
+```bash
+git add .
+git commit -m "Configure build.yaml for seeeduino_xiao_ble targets"
+git push origin feature/dynamic-role
 ```
 
-> [!IMPORTANT]
-> The key position you assign to `CONFIG_ZMK_UNIBODY_TOGGLE_KEY_POSITION` will be **intercepted locally** at the hardware level. When pressed, it will toggle the mode between Dongle and Direct. It will **not** trigger standard keys or custom keymap behaviors in either mode. Choose a key position that you do not mind dedicating to mode switching.
-
-### 2. Verify `west.yml` (Pre-configured on this branch)
-Your `config/west.yml` has already been updated to pull ZMK source code from your custom fork containing the implementation:
-```yaml
-manifest:
-  remotes:
-    - name: tienanhnguyen996
-      url-base: https://github.com/tienanhnguyen996
-  projects:
-    - name: zmk
-      remote: tienanhnguyen996
-      revision: main
-      import: app/west.yml
-  self:
-    path: config
-```
-
-### 3. Build & Flash
-When you push this branch to GitHub, your **GitHub Actions Workflow** will automatically build the firmware using your custom ZMK fork. 
-
-1. Push this branch to GitHub:
-   ```bash
-   git push origin feature/dynamic-role
-   ```
-2. Go to the **Actions** tab on your GitHub repository.
-3. Download the built zip artifact containing the `.uf2` file.
-4. Put your Reviung41 keyboard into bootloader mode and flash the `.uf2` file.
+You can download the built UF2 files from the **Actions** tab on your GitHub repository page:
+* Flash `xiao_test_dongle-seeeduino_xiao_ble-zmk.uf2` to the Dongle board.
+* Flash `xiao_test-seeeduino_xiao_ble-zmk.uf2` to the Keyboard board.

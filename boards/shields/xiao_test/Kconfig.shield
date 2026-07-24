@@ -1,0 +1,6 @@
+# Copyright (c) 2026 The ZMK Contributors
+# SPDX-License-Identifier: MIT
+
+config SHIELD_XIAO_TEST
+    def_bool $(shields_list_contains,xiao_test)
+    select ZMK_SPLIT
