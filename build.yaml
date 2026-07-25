@@ -26,3 +26,9 @@ include:
   - board: xiao_ble//zmk
     shield: xiao_test
     artifact-name: xiao_test
+  - board: xiao_ble//zmk
+    shield: reviung41_dongle
+    artifact-name: reviung41_dongle
+  - board: nice_nano_v2//zmk
+    shield: reviung41
+    artifact-name: reviung41
