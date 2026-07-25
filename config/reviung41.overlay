@@ -23,7 +23,7 @@
     pinctrl-1 = <&spi3_sleep>;
     pinctrl-names = "default", "sleep";
 
-    led_strip: ws2812@0 {
+    keyboard_led_strip: ws2812@0 {
         compatible = "worldsemi,ws2812-spi";
 
         /* SPI */
@@ -41,6 +41,6 @@
 
 / {
     chosen {
-        zmk,underglow = &led_strip;
+        zmk,underglow = &keyboard_led_strip;
     };
 };
