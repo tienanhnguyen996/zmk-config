@@ -18,7 +18,7 @@
 #     artifact-name: corne_left_with_studio
 #
 ---
-# Re-trigger build to pull latest ZMK explicit mode behaviors
+# Re-trigger build to pull latest ZMK explicit mode devicetree bindings
 include:
   # - board: xiao_ble//zmk
   #   shield: xiao_test_dongle
