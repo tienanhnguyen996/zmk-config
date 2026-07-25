@@ -31,4 +31,5 @@ include:
     artifact-name: reviung41_dongle
   - board: nice_nano//zmk
     shield: reviung41
+    snippet: zmk-usb-logging
     artifact-name: reviung41
