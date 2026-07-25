@@ -1,0 +1,26 @@
+# Copyright (c) 2026 The ZMK Contributors
+# SPDX-License-Identifier: MIT
+
+if SHIELD_XIAO_TEST_DONGLE
+
+config ZMK_KEYBOARD_NAME
+    default "XiaoTestDongle"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+config ZMK_SPLIT
+    default y
+
+# We have 1 peripheral (the xiao_test keyboard itself)
+config ZMK_SPLIT_BLE_CENTRAL_PERIPHERALS
+    default 1
+
+# Max profiles
+config BT_MAX_CONN
+    default 6
+
+config BT_MAX_PAIRED
+    default 6
+
+endif
