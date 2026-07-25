@@ -18,7 +18,7 @@
 #     artifact-name: corne_left_with_studio
 #
 ---
-# Re-trigger build to pull latest ZMK toggle debouncing fixes
+# Re-trigger build to pull latest ZMK hybrid default fixes
 include:
   # - board: xiao_ble//zmk
   #   shield: xiao_test_dongle
