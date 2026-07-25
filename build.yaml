@@ -18,7 +18,7 @@
 #     artifact-name: corne_left_with_studio
 #
 ---
-# Re-trigger build to pull latest ZMK LED strip naming fixes
+# Re-trigger build to pull latest ZMK endpoint-level hybrid fixes
 include:
   # - board: xiao_ble//zmk
   #   shield: xiao_test_dongle
