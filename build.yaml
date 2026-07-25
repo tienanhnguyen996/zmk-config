@@ -18,7 +18,7 @@
 #     artifact-name: corne_left_with_studio
 #
 ---
-# Re-trigger build to pull latest ZMK shield fixes
+# Re-trigger build to pull latest ZMK keymap listener fixes
 include:
   - board: xiao_ble//zmk
     shield: xiao_test_dongle
