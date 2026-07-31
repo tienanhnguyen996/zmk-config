@@ -8,27 +8,42 @@
 };
 
 &pinctrl {
-    spi1_default: spi1_default {
+    spi2_default: spi2_default {
         group1 {
             psels = <NRF_PSEL(SPIM_SCK, 0, 2)>,
                     <NRF_PSEL(SPIM_MOSI, 0, 3)>;
         };
     };
 
-    spi1_sleep: spi1_sleep {
+    spi2_sleep: spi2_sleep {
         group1 {
             psels = <NRF_PSEL(SPIM_SCK, 0, 2)>,
                     <NRF_PSEL(SPIM_MOSI, 0, 3)>;
             low-power-enable;
         };
     };
+
+    spi1_default: spi1_default {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 1, 13)>,
+                    <NRF_PSEL(SPIM_MOSI, 1, 15)>;
+        };
+    };
+
+    spi1_sleep: spi1_sleep {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 1, 13)>,
+                    <NRF_PSEL(SPIM_MOSI, 1, 15)>;
+            low-power-enable;
+        };
+    };
 };
 
-&spi1 {
+&spi2 {
     compatible = "nordic,nrf-spim";
     status = "okay";
-    pinctrl-0 = <&spi1_default>;
-    pinctrl-1 = <&spi1_sleep>;
+    pinctrl-0 = <&spi2_default>;
+    pinctrl-1 = <&spi2_sleep>;
     pinctrl-names = "default", "sleep";
 
     led_strip: ws2812@0 {
@@ -42,22 +57,39 @@
     };
 };
 
-&i2c0 {
+&spi1 {
+    compatible = "nordic,nrf-spim";
     status = "okay";
-    oled: ssd1306@3c {
-        compatible = "solomon,ssd1306fb";
-        reg = <0x3c>;
-        width = <128>;
-        height = <64>;
-        segment-offset = <0>;
-        page-offset = <0>;
-        display-offset = <0>;
-        multiplex-ratio = <63>;
-        segment-remap;
-        com-invdir;
-        inversion-on;
-        prechargep = <0x22>;
+    pinctrl-0 = <&spi1_default>;
+    pinctrl-1 = <&spi1_sleep>;
+    pinctrl-names = "default", "sleep";
+    cs-gpios = <&gpio1 12 GPIO_ACTIVE_LOW>;
+
+    st7789v: st7789v@0 {
+        compatible = "sitronix,st7789v";
+        reg = <0>;
+        spi-max-frequency = <24000000>;
+        reset-gpios = <&gpio0 29 GPIO_ACTIVE_LOW>;
+        cmd-data-gpios = <&gpio1 11 GPIO_ACTIVE_HIGH>;
+        width = <240>;
+        height = <320>;
+        x-offset = <0>;
+        y-offset = <0>;
+        vcom = <0x19>;
+        gctrl = <0x35>;
+        vrhs = <0x12>;
+        vdvs = <0x20>;
+        mdac = <0x00>;
+        lcm = <0x2c>;
+        colmod = <0x05>;
+        gamma = <0x01>;
+        porch = <0x0c 0x0c 0x00 0x33 0x33>;
+        cmd2enct = <0x5a 0x69 0x02 0x01>;
     };
+};
+
+&i2c0 {
+    status = "disabled";
 };
 
 / {
@@ -65,7 +97,7 @@
         zmk,kscan = &mock_kscan;
         zmk,physical-layout = &gtips_reviung41_layout;
         zmk,underglow = &led_strip;
-        zephyr,display = &oled;
+        zephyr,display = &st7789v;
     };
 
     default_transform: keymap_transform_0 {

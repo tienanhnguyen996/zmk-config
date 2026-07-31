@@ -13,7 +13,7 @@ manifest:
       remote: zmkfirmware
       import: app/west.yml
     - name: zmk-dongle-display
-      remote: englmaxi
-      revision: v0.3
+      url: https://github.com/tienanhnguyen996/zmk-Keebgotchi
+      revision: main
   self:
     path: config
