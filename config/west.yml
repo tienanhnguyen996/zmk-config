@@ -14,6 +14,6 @@ manifest:
       import: app/west.yml
     - name: zmk-dongle-display
       url: https://github.com/tienanhnguyen996/zmk-Keebgotchi
-      revision: main
+      revision: c6c4be18fbaf15d862957b98d248de30be62ad61
   self:
     path: config
