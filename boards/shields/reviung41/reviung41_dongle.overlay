@@ -64,6 +64,33 @@
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
     cs-gpios = <&gpio1 12 GPIO_ACTIVE_LOW>;
+
+    st7789v: st7789v@0 {
+        compatible = "sitronix,st7789v";
+        reg = <0>;
+        spi-max-frequency = <24000000>;
+        reset-gpios = <&gpio0 29 GPIO_ACTIVE_LOW>;
+        cmd-data-gpios = <&gpio1 11 GPIO_ACTIVE_HIGH>;
+        width = <240>;
+        height = <320>;
+        x-offset = <0>;
+        y-offset = <0>;
+        vcom = <0x19>;
+        gctrl = <0x35>;
+        vrhs = <0x12>;
+        vdvs = <0x20>;
+        mdac = <0x00>;
+        gamma = <0x01>;
+        colmod = <0x05>;
+        lcm = <0x2c>;
+        porch-param = [0c 0c 00 33 33];
+        cmd2en-param = [5a 69 02 01];
+        pwctrl1-param = [a4 a1];
+        pvgam-param = [D0 04 0D 11 13 2B 3F 54 4C 18 0D 0B 1F 23];
+        nvgam-param = [D0 04 0C 11 13 2C 3F 44 51 2F 1F 1F 20 23];
+        ram-param = [00 F0];
+        rgb-param = [CD 08 14];
+    };
 };
 
 &i2c0 {
@@ -76,42 +103,6 @@
         zmk,physical-layout = &gtips_reviung41_layout;
         zmk,underglow = &led_strip;
         zephyr,display = &st7789v;
-    };
-
-    mipi_dbi {
-        compatible = "zephyr,mipi-dbi-spi";
-        spi-dev = <&spi1>;
-        dc-gpios = <&gpio1 11 GPIO_ACTIVE_HIGH>;   // D6 (P1.11)
-        reset-gpios = <&gpio0 29 GPIO_ACTIVE_LOW>; // D3 (P0.29)
-        write-only;
-        #address-cells = <1>;
-        #size-cells = <0>;
-
-        st7789v: st7789v@0 {
-            compatible = "sitronix,st7789v";
-            reg = <0>;
-            mipi-max-frequency = <24000000>;
-            width = <240>;
-            height = <320>;
-            x-offset = <0>;
-            y-offset = <0>;
-            vcom = <0x19>;
-            gctrl = <0x35>;
-            vrhs = <0x12>;
-            vdvs = <0x20>;
-            mdac = <0x00>;
-            gamma = <0x01>;
-            colmod = <0x05>;
-            lcm = <0x2c>;
-            porch-param = [0c 0c 00 33 33];
-            cmd2en-param = [5a 69 02 01];
-            pwctrl1-param = [a4 a1];
-            pvgam-param = [D0 04 0D 11 13 2B 3F 54 4C 18 0D 0B 1F 23];
-            nvgam-param = [D0 04 0C 11 13 2C 3F 44 51 2F 1F 1F 20 23];
-            ram-param = [00 F0];
-            rgb-param = [CD 08 14];
-            mipi-mode = "MIPI_DBI_MODE_SPI_4WIRE";
-        };
     };
 
     default_transform: keymap_transform_0 {
@@ -133,5 +124,6 @@ RC(2,0) RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5) RC(5,0) RC(5,1) RC(5,2) RC(5,3) 
         rows = <0>;
         events = <0>;
     };
+
 };
 
